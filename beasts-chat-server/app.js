@@ -7,6 +7,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+// const http = require('http').createServer(app);
+// const io = require('socket.io')(http);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -16,5 +18,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+
 
 module.exports = app;
