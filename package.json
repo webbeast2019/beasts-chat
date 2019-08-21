@@ -1,0 +1,12 @@
+{
+  "name": "beasts-chat",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "client:start": "(cd beasts-chat-client && npm run start)",
+    "server:start": "(cd beasts-chat-server && npm run start)",
+    "server:dev": "(cd beasts-chat-server && npm run dev)",
+    "build": "(cd beasts-chat-client && npm run build)",
+    "postbuild": "mv ./beasts-chat-client/build ./beasts-chat-server/public"
+  }
+}
