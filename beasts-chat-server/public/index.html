@@ -17,7 +17,7 @@
 <ul id="messages">
 
 </ul>
-<form action="">
+<form action="" id="form">
   <input id="m" autocomplete="off" />
   <button>Send</button>
 
@@ -26,30 +26,42 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
 <script>
-    $(function () {
-        const socket = io();
-        $('form').submit(function(e){
-            e.preventDefault();
-            socket.emit('chat-message', $('#m').val());
-            $('#m').val('');
-            return false;
-        });
+  const startChat = () => {
+      const socket = io()
+      const form = document.getElementById('form')
+      const m = document.getElementById('m')
+      const messages = document.getElementById('messages')
+      const username = prompt('Please Enter Your Name')
+      socket.emit('username', username);
 
-        socket.on('is_online', function(username) {
-            $('#messages').append($('<li>').html(username));
-        });
+      form.addEventListener("submit", (e)=>{
+          e.preventDefault();
+          socket.emit('chat-message', m.value)
+          m.value = "";
+          return false
+      });
 
-        socket.on('display_message', function(msg){
-            $('#messages').append($('<li>').html(msg));
-        });
+      socket.on('is_online', (username)=> {
+          let li = document.createElement("li")
+          li.innerHTML = username;
+          messages.append(li);
+      });
 
-        socket.on('user-disconnect', (userdisconnect)=> {
-            $('#messages').append($('<li>').html(userdisconnect));
-        })
+      socket.on('display_message', function(msg){
+          let li = document.createElement("li")
+          li.innerHTML = msg;
+          messages.append(li);
+      });
 
-        const username = prompt('Please Enter Your Name');
-        socket.emit('username', username);
-    });
+      socket.on('user-disconnect', (userdisconnect)=> {
+          let li = document.createElement("li")
+          li.innerHTML = userdisconnect;
+          messages.append(li);
+      })
+  };
+
+startChat()
+
 </script>
 </body>
 </html>
