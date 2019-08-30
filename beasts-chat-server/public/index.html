@@ -14,9 +14,13 @@
 
 </head>
 <body>
-<ul id="messages"></ul>
+<ul id="messages">
+
+</ul>
 <form action="">
-  <input id="m" autocomplete="off" /><button>Send</button>
+  <input id="m" autocomplete="off" />
+  <button>Send</button>
+
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -26,10 +30,21 @@
         var socket = io();
         $('form').submit(function(e){
             e.preventDefault(); // prevents page reloading
-            socket.emit('chat message', $('#m').val());
+            socket.emit('chat-message', $('#m').val());
             $('#m').val('');
             return false;
         });
+
+        socket.on('is_online', function(username) {
+            $('#messages').append($('<li>').html(username));
+        });
+
+        socket.on('display_chat', function(msg){
+            $('#messages').append($('<li>').html(msg));
+        });
+
+        const username = prompt('Please tell me your name');
+        socket.emit('username', username);
     });
 </script>
 </body>
