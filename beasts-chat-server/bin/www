@@ -25,19 +25,20 @@ const io = require('socket.io').listen(server);
 io.on('connection', function(socket){
   console.log('a user connected');
 
-  socket.on('username', function(username) {
+  let name = "";
+  socket.on('username', (username)=> {
     socket.username = username;
-    io.emit('is_online', '🔵 <i>' + socket.username + ' join the chat..</i>');
+    name = username;
+    io.emit('is_online', '🔘 <i>' + socket.username + ' join the chat..</i>');
   });
 
-  socket.on('disconnect', function(){
+  socket.on('disconnect', ()=>{
     console.log('user disconnected');
+    io.emit('user-disconnect', name + ' has disconnected from the chat')
   });
 
-  socket.on('chat-message', function(msg){
-    // socket.message = msg;
-    // console.log('message: ' + msg);
-    io.emit('display_chat', '🔵 <i>' + socket.username + ": " + msg + '</i>');
+  socket.on('chat-message', (msg)=>{
+    io.emit('display_message', '🔘 <i>' + socket.username + ": " + msg + '</i>');
   });
 
 });

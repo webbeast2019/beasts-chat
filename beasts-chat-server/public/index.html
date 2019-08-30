@@ -27,9 +27,9 @@
 
 <script>
     $(function () {
-        var socket = io();
+        const socket = io();
         $('form').submit(function(e){
-            e.preventDefault(); // prevents page reloading
+            e.preventDefault();
             socket.emit('chat-message', $('#m').val());
             $('#m').val('');
             return false;
@@ -39,11 +39,15 @@
             $('#messages').append($('<li>').html(username));
         });
 
-        socket.on('display_chat', function(msg){
+        socket.on('display_message', function(msg){
             $('#messages').append($('<li>').html(msg));
         });
 
-        const username = prompt('Please tell me your name');
+        socket.on('user-disconnect', (userdisconnect)=> {
+            $('#messages').append($('<li>').html(userdisconnect));
+        })
+
+        const username = prompt('Please Enter Your Name');
         socket.emit('username', username);
     });
 </script>
