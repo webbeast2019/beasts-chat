@@ -7,12 +7,9 @@ const chat = require('./chat.service');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-console.log(chat);
 chat(io); // connect chat service
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-
 
 app.use(logger('dev'));
 app.use(express.json());
