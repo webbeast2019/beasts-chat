@@ -9,7 +9,8 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 chat(io); // connect chat service
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const passportSetup = require('./config/passport_setup');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,6 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 module.exports = {app, server};
