@@ -3,12 +3,6 @@ const router = express.Router();
 const path = require('path');
 const passport = require('passport');
 
-
-/* GET users listing. */
-router.get('/login', function(req, res) {
-  res.sendFile(path.join(__dirname, '../public', 'login.html'))
-});
-
 // auth logout
 router.get('/logout', (req, res) => {
   // handle with passport
@@ -21,8 +15,8 @@ router.get('/google',passport.authenticate('google', {
 }));
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.redirect('/index.html')
+  console.log('redirect URI ', req.user);
+  res.end('redirect URI for' +  req.user.displayName);
 });
-
 
 module.exports = router;
