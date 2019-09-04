@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 beasts-chat-server/node_modules
-beasts-chat-server/config/keys
+beasts-chat-server/config/keys.js
 beasts-chat-client/node_modules
 
 /.pnp
