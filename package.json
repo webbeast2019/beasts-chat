@@ -8,8 +8,5 @@
     "server:dev": "(cd beasts-chat-server && npm run dev)",
     "build": "(cd beasts-chat-client && npm run build)",
     "postbuild": "mv ./beasts-chat-client/build/* ./beasts-chat-server/public"
-  },
-  "dependencies": {
-    "mongoose": "^5.6.11"
   }
 }

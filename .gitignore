@@ -14,7 +14,7 @@ beasts-chat-client/node_modules
 
 # production
 /build
-/beasts-chat-server/public
+
 
 # misc
 .DS_Store

@@ -3,6 +3,12 @@
 <head>
     <title>Beasts Chat</title>
     <style>
+        header {
+            padding: 20px;
+            background-color: lightblue;
+            border-bottom: 1px solid gray;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -10,7 +16,7 @@
         }
 
         body {
-            font: 13px Helvetica, Arial;
+            font: 16px Helvetica, Arial;
         }
 
         form {
@@ -51,13 +57,15 @@
     </style>
 </head>
 <body>
+<header>
+    <a href="/auth/login">login</a>
+</header>
 <ul id="messages"></ul>
 <form action="" id="form">
     <input id="m" autocomplete="off"/>
     <button>Send</button>
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     const startChat = () => {
         const socket = io();
