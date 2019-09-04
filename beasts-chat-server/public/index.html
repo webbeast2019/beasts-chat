@@ -57,7 +57,7 @@
     </style>
 </head>
 <body>
-<header>
+<header id="header">
     <a href="/auth/google">login with google</a>
 </header>
 <ul id="messages"></ul>
@@ -67,40 +67,54 @@
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 <script>
-    const startChat = () => {
-        const socket = io();
-        const form = document.getElementById('form');
-        const m = document.getElementById('m');
-        const messages = document.getElementById('messages');
-        const username = prompt('Please Enter Your Name');
-        socket.emit('username', username);;
+  const startChat = () => {
+    const socket = io();
+    const form = document.getElementById('form');
+    const m = document.getElementById('m');
+    const messages = document.getElementById('messages');
+    // const username = prompt('Please Enter Your Name');
+    // socket.emit('username', username);
 
-        form.addEventListener('submit', (e)=>{
-            e.preventDefault();
-            socket.emit('chat-message', m.value);
-            m.value = "";
-            return false
-        });
+    fetch('/profile')
+      .then(res => res.json())
+      .then(user => {
+        console.log('user:', user);
+        if (user && user.name) {
+          document.getElementById('header').innerHTML = `Welcome back, ${user.name}`
+          socket.emit('username', user.name);
+        } else {
+          socket.emit('username', 'anonymous_' + Math.Random().toString().substr(2));
+        }
+      });
 
-        socket.on('is_online', (username)=> {
-            let li = document.createElement('li');
-            li.innerHTML = username;
-            messages.append(li);
-        });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      socket.emit('chat-message', m.value);
+      m.value = "";
+      return false
+    });
 
-        socket.on('display_message', (msg)=>{
-            let li = document.createElement('li');
-            li.innerHTML = msg;
-            messages.append(li);
-        });
+    socket.on('is_online', (username) => {
+      let li = document.createElement('li');
+      li.innerHTML = username;
+      messages.append(li);
+    });
 
-        socket.on('user-disconnect', (userdisconnect)=> {
-            let li = document.createElement('li');
-            li.innerHTML = userdisconnect;
-            messages.append(li);
-        })
-    };
-    startChat()
+    socket.on('display_message', (msg) => {
+      let li = document.createElement('li');
+      li.innerHTML = msg;
+      messages.append(li);
+    });
+
+    socket.on('user-disconnect', (userdisconnect) => {
+      let li = document.createElement('li');
+      li.innerHTML = userdisconnect;
+      messages.append(li);
+    })
+  };
+  startChat();
+
+
 </script>
 </body>
 

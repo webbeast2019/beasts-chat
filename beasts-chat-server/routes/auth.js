@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 const passport = require('passport');
 
 // auth logout
@@ -16,7 +15,7 @@ router.get('/google',passport.authenticate('google', {
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
   console.log('redirect URI ', req.user);
-  res.end('redirect URI for' +  req.user.displayName);
+  res.end('redirect URI for' +  req.user.name);
 });
 
 module.exports = router;
