@@ -7,11 +7,18 @@ const chat = require('./chat.service');
 const app = express();
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-console.log(chat);
 chat(io); // connect chat service
-
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const passportSetup = require('./config/passport_setup');
+const keys = require('./config/keys')
+
+// connecting to db
+const mongoose = require('mongoose');
+
+mongoose.connect(keys.google.mongoAtlas.dbURI,{ useNewUrlParser: true }, () => {
+    console.log('connected to mongodb');
+});
 
 
 app.use(logger('dev'));
@@ -21,6 +28,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+
+
+
+
 
 module.exports = {app, server};
