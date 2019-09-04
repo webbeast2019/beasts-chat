@@ -31,7 +31,4 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 
 
-
-
-
 module.exports = {app, server};
